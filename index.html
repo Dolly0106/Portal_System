@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>專題入口大廳</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        .door-btn { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        #portal-section { display: none; /* 一開始先隱藏大廳的門 */ }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 入口大廳</h1>
+
+    <div id="login-section">
+        <p>請先驗證身分，才能進入各個系統</p>
+        <button class="door-btn" onclick="login()">登入系統</button>
+    </div>
+
+    <div id="portal-section">
+        <h2>歡迎回來！請選擇你要進入的系統：</h2>
+        
+        <button class="door-btn" onclick="goToApp('game')">🎮 英文單字遊戲 (Gemini API)</button>
+        <button class="door-btn" onclick="goToApp('finance')">💰 金流管理系統 (限管理員)</button>
+        <button class="door-btn" onclick="goToApp('other')">📂 其他專案</button>
+        
+        <br><br>
+        <button onclick="logout()">登出</button>
+    </div>
+
+    <script type="module">
+    // 1. 改用 ES Module 的方式精準載入 Authgear 工具包
+    import authgear from "https://esm.sh/@authgear/web";
+
+    // === 填入你剛剛在 Authgear 拿到的金鑰 ===
+    const CLIENT_ID = "5664b8b9b9a45613"; 
+    const ENDPOINT = "https://flight-55a43d.authgear.cloud"; 
+    const REDIRECT_URI = "http://127.0.0.1:5500/index.html"; 
+
+    async function init() {
+        try {
+            await authgear.configure({
+                clientID: CLIENT_ID,
+                endpoint: ENDPOINT
+            });
+
+            // 如果是從 Authgear 登入後跳轉回來，網址列會有 code 驗證碼
+            if (window.location.search.includes("code=")) {
+                await authgear.finishAuthentication();
+                window.history.replaceState({}, document.title, window.location.pathname); 
+            }
+
+            // 判斷狀態：若已登入，隱藏登入區塊並顯示大廳
+            if (authgear.sessionState === "AUTHENTICATED") {
+                document.getElementById("login-section").style.display = "none";
+                document.getElementById("portal-section").style.display = "block";
+            }
+        } catch (err) {
+            console.error("系統連線失敗：", err);
+        }
+    }
+
+    // 2. 將按鈕功能綁定到 window 上，這樣 HTML 裡的按鈕才抓得到
+    window.login = async function() {
+        await authgear.startAuthentication({ redirectURI: REDIRECT_URI });
+    }
+
+    window.logout = async function() {
+        await authgear.logout({ redirectURI: REDIRECT_URI });
+    }
+
+    window.goToApp = function(appName) {
+        alert("準備跳轉到：" + appName);
+    }
+
+    // 啟動系統
+    init();
+</script>
+</body>
+</html>
