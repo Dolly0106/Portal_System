@@ -3,38 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>專題入口大廳</title>
+    <title>專題入口大廳 | NTNU Adaptive eLearning Lab Style</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        .door-btn { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
-        #portal-section { display: none; /* 一開始先隱藏大廳的門 */ }
+        /* === 全局設定 (Reset & Base) === */
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --accent-hover: #2980b9;
+            --bg-color: #f4f7f6;
+            --text-main: #333333;
+            --text-sub: #666666;
+            --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* === 頂部導航欄 === */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .brand-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-left: 10px;
+            font-weight: 300;
+        }
+
+        /* === 主要內容區塊 === */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* === 卡片式設計 === */
+        .card-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            border-top: 5px solid var(--accent-color);
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* === 按鈕樣式 === */
+        .door-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .door-btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .btn-logout {
+            background-color: transparent;
+            color: var(--text-sub);
+            border: 1px solid #ddd;
+            margin-top: 0;
+            width: 100%;
+        }
+        .btn-logout:hover {
+            background-color: #f8f9fa;
+            color: var(--text-main);
+            border-color: #ccc;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* === 應用程式選單 Grid === */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .app-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+
+        .app-card:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-color: var(--accent-color);
+        }
+
+        .app-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .app-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .logout-section {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+
+        footer {
+            background-color: #e9ecef;
+            color: var(--text-sub);
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.85rem;
+            border-top: 1px solid #ddd;
+        }
+
+        /* === 預設全部隱藏，只顯示 Loading === */
+        #login-section, #portal-section { display: none; }
+        
+        #loading-section {
+            display: block;
+            color: var(--text-sub);
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
     </style>
 </head>
 <body>
 
-    <h1>🚀 入口大廳</h1>
+    <header>
+        <div class="header-container">
+            <div class="brand">
+                <span class="brand-title">NTNU Adaptive eLearning Lab</span>
+                <span class="brand-subtitle">Portal System</span>
+            </div>
+        </div>
+    </header>
 
-    <div id="login-section">
-        <p>請先驗證身分，才能進入各個系統</p>
-        <button class="door-btn" onclick="login()">登入系統</button>
-    </div>
+    <main>
+        <div class="card-container">
+            
+            <div id="loading-section">
+                <div class="spinner"></div>
+                <p id="loading-text">系統身分驗證中...</p>
+            </div>
 
-    <div id="portal-section">
-        <h2>歡迎回來！請選擇你要進入的系統：</h2>
-        
-        <button class="door-btn" onclick="goToApp('game')">🎮 英文單字遊戲 (Gemini API)</button>
-        <button class="door-btn" onclick="goToApp('finance')">💰 金流管理系統 (限管理員)</button>
-        <button class="door-btn" onclick="goToApp('other')">📂 其他專案</button>
-        
-        <br><br>
-        <button onclick="logout()">登出</button>
-    </div>
+            <div id="login-section">
+                <h1>入口大廳</h1>
+                <p>請驗證您的身分以存取實驗室資源</p>
+                <button class="door-btn" onclick="login()">登入系統 (Login)</button>
+            </div>
+
+            <div id="portal-section">
+                <h1>入口大廳</h1>
+                <h2 id="welcome-text">歡迎回來</h2>
+                <p>請選擇您要使用的服務：</p>
+                
+                <div class="portal-grid">
+                    <div id="card-game" class="app-card" onclick="goToApp('game')" style="display: none;">
+                        <div class="app-icon">🎮</div>
+                        <div class="app-name">單字遊戲</div>
+                    </div>
+
+                    <div id="card-finance" class="app-card" onclick="goToApp('finance')" style="display: none;">
+                        <div class="app-icon">💰</div>
+                        <div class="app-name">金流管理</div>
+                    </div>
+
+                    <div id="card-aibuddy" class="app-card" onclick="goToApp('other')" style="display: none;">
+                        <div class="app-icon">📂</div>
+                        <div class="app-name">專案資源</div>
+                    </div>
+                    
+                    <div class="app-card" style="opacity: 0.5; cursor: default; display: flex;">
+                        <div class="app-icon">🔨</div>
+                        <div class="app-name">建置中...</div>
+                    </div>
+                </div>
+                
+                <div class="logout-section">
+                    <button class="door-btn btn-logout" onclick="logout()">登出 (Logout)</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        Copyright © NTNU Adaptive eLearning Lab 2026. All Rights Reserved.
+    </footer>
 
     <script type="module">
-    // 1. 改用 ES Module 的方式精準載入 Authgear 工具包
     import authgear from "https://esm.sh/@authgear/web";
 
-    // === 填入你剛剛在 Authgear 拿到的金鑰 ===
     const CLIENT_ID = "5664b8b9b9a45613"; 
     const ENDPOINT = "https://flight-55a43d.authgear.cloud"; 
     const REDIRECT_URI = "http://127.0.0.1:5500/index.html"; 
@@ -46,36 +304,102 @@
                 endpoint: ENDPOINT
             });
 
-            // 如果是從 Authgear 登入後跳轉回來，網址列會有 code 驗證碼
             if (window.location.search.includes("code=")) {
                 await authgear.finishAuthentication();
                 window.history.replaceState({}, document.title, window.location.pathname); 
             }
 
-            // 判斷狀態：若已登入，隱藏登入區塊並顯示大廳
+            document.getElementById("loading-section").style.display = "none";
+
             if (authgear.sessionState === "AUTHENTICATED") {
-                document.getElementById("login-section").style.display = "none";
+                // 已登入 -> 顯示功能頁
                 document.getElementById("portal-section").style.display = "block";
+
+                // 🌟 秘訣 2：向 Authgear 取得使用者的詳細資料
+                const userInfo = await authgear.fetchUserInfo();
+                
+                // 你可以按 F12 (Console) 偷看 Authgear 傳回了什麼資料
+                console.log("登入者詳細資料：", userInfo); 
+
+                // 顯示使用者的 Email
+                if(userInfo.email) {
+                    document.getElementById("welcome-text").innerText = "歡迎回來，" + userInfo.email;
+                }
+
+                // 🌟 秘訣 3：抓取角色標籤 (Roles)
+                // Authgear 會把角色放在這個專屬的網址欄位裡
+                const roles = userInfo.roles || [];
+                console.log("擁有的角色標籤：", roles);
+
+                // 🌟 秘訣 4：根據角色解鎖卡片
+                // 注意：因為你的卡片原本是用 display: flex 排版的，所以這裡要用 "flex" 顯示
+                
+                if (roles.includes("admin")) {
+                    // 如果有 admin 標籤 -> 顯示所有卡片
+                    document.getElementById("card-game").style.display = "flex";
+                    document.getElementById("card-finance").style.display = "flex";
+                    document.getElementById("card-aibuddy").style.display = "flex";
+                } 
+                if (roles.includes("player_game")) {
+                    // 如果只有 player_game 標籤 -> 只顯示遊戲
+                    document.getElementById("card-game").style.display = "flex";
+                    document.getElementById("card-aibuddy").style.display = "flex";
+                } 
+                if (roles.includes("player_finance")) {
+                    // 如果只有 player-finance 標籤 -> 只顯示財務
+                    document.getElementById("card-finance").style.display = "flex";
+                }
+                if (roles.includes("player_aibuddy")) {
+                    // 如果只有 player-aibuddy 標籤 -> 只顯示 專案管理
+                    document.getElementById("card-aibuddy").style.display = "flex";
+                }
+                if (roles.length === 0) {
+                    // 如果剛註冊 請聯繫管理員
+                    alert("您目前沒有任何權限，請等待管理員分配權限。");
+                }
+
+
+            } else {
+                // 未登入 -> 顯示登入頁
+                document.getElementById("login-section").style.display = "block";
             }
+
         } catch (err) {
             console.error("系統連線失敗：", err);
+            document.getElementById("loading-section").style.display = "none";
+            document.getElementById("login-section").style.display = "block";
+            alert("連線驗證失敗，請檢查網路或重新整理。");
         }
     }
 
-    // 2. 將按鈕功能綁定到 window 上，這樣 HTML 裡的按鈕才抓得到
     window.login = async function() {
         await authgear.startAuthentication({ redirectURI: REDIRECT_URI });
     }
 
     window.logout = async function() {
-        await authgear.logout({ redirectURI: REDIRECT_URI });
+        document.getElementById("portal-section").style.display = "none";
+        document.getElementById("loading-section").style.display = "block";
+        document.getElementById("loading-text").innerText = "正在登出中...";
+
+        try {
+            await authgear.logout({ redirectURI: REDIRECT_URI });
+        } catch (err) {
+            console.error("登出請求失敗:", err);
+        } finally {
+            window.location.href = REDIRECT_URI;
+        }
     }
 
     window.goToApp = function(appName) {
-        alert("準備跳轉到：" + appName);
+        if (appName === 'other') {
+            window.open("https://sites.google.com/view/aibuddy2025/%E9%A6%96%E9%A0%81", "_blank");
+        } else if (appName === 'finance') {
+            window.open("https://docs.google.com/spreadsheets/d/1fOa20Dt6tjiLqk_6NoSxyMA2wBGlMDq_WWtvYZkLO30/edit?usp=sharing", "_blank");
+        } else {
+            alert("準備跳轉到：" + appName);
+        }
     }
 
-    // 啟動系統
     init();
 </script>
 </body>
